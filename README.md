@@ -5,7 +5,93 @@ This project practices:
 1. Setting up a bare bones Hardhat Javascript project
 2. Creating and deploying a Smart Contract on the Goerli testnet
 
-**Added the following run scripts:**
+## Alchemy University Hardhat Flow
+
+Want to get up and running with a Hardhat project? 🏇 Just follow this flow:
+
+_(This flow has been modified by me.)_
+
+1. In a terminal setup your new project folder:
+
+   ```sh
+   mkdir au-hardhat-practice && cd au-hardhat-practice
+   npm init -y
+   git init
+   ```
+
+2. Install your packages:
+
+   ```sh
+   npm i dotenv ethers
+   npm i --save-dev hardhat // chai mocha
+   ```
+
+3. Initialize your Hardhat project structure:
+
+   - `npx hardhat` _(which will initialize a brand new Hardhat project)_
+
+     **We recommend the following flow:**
+
+     1. **Select:** `Create a JavaScript project`
+     2. Choose the current root
+     3. `YES` to the `.gitignore`
+
+        _(**NOTE:** this will add many things, such as `.env`.)_
+
+     4. `YES` to install the sample project's dependencies
+        - This installs the devDependency `@nomicfoundation/hardhat-toolbox`
+
+4. Setup your `.env` files:
+
+   1. `touch .env-sample`
+
+      - Add the following starter ENV variables:
+
+        ```conf
+        TESTNET_ALCHEMY_RPC_URL=alchemy_rpc_url
+        TESTNET_WALLET_PRIVATE_KEY=your_test_wallet_private_key
+        ```
+
+   2. Now create the `.env` version:
+
+      ```sh
+      cp .env-sample .env
+      // add your values
+      ```
+
+5. Update `hardhat.config.js`:
+
+   ```js
+   require("dotenv").config();
+   require("@nomicfoundation/hardhat-toolbox");
+
+   /** @type import('hardhat/config').HardhatUserConfig */
+   module.exports = {
+     solidity: "0.8.17",
+     networks: {
+       goerli: {
+         url: process.env.TESTNET_ALCHEMY_RPC_URL,
+         accounts: [process.env.TESTNET_WALLET_PRIVATE_KEY],
+       },
+     },
+   };
+   ```
+
+6. Update your `package.json` scripts to include:
+
+   ```json
+   "scripts": {
+     "compile": "npx hardhat compile",
+     "deploy_local": "npx hardhat run scripts/deploy.js",
+     "deploy_goerli": "npx hardhat run scripts/deploy.js --network goerli",
+     "test": "npx hardhat test"
+   },
+   ```
+
+7. You're now ready to go!
+   - Set up your `scripts/`, `tests/`, and `contracts/`...
+
+## Added the following run scripts
 
 - `npm run deploy_local`
 
